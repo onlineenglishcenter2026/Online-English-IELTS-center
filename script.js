@@ -1,5 +1,4 @@
 // script.js — Interactivity : nav toggle, reveal on scroll, testimonials slider, forms, modal
-
 document.addEventListener('DOMContentLoaded', function () {
   // Utilities
   const $ = s => document.querySelector(s);
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (target) {
         e.preventDefault();
         target.scrollIntoView({behavior:'smooth', block:'start'});
-        if (navList.classList.contains('show')) navList.classList.remove('show');
+        if (navList && navList.classList.contains('show')) navList.classList.remove('show');
       }
     });
   });
@@ -105,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!enrollModal) return;
     enrollModal.setAttribute('aria-hidden', 'false');
     if (enrollCourse) enrollCourse.value = courseName || '';
-    // focus trap: focus first input
+    // focus first input
     const firstInput = enrollModal.querySelector('input, textarea, button');
     if (firstInput) firstInput.focus();
     document.body.style.overflow = 'hidden';
@@ -141,8 +140,9 @@ document.addEventListener('DOMContentLoaded', function () {
     // Simple validation
     const name = $('#e-name').value.trim();
     const email = $('#e-email').value.trim();
-    if (!name || !email) {
-      enrollStatus.textContent = 'Please provide name and email.';
+    const phone = $('#e-phone').value.trim();
+    if (!name || !email || !phone) {
+      enrollStatus.textContent = 'Please provide name, phone and email.';
       return;
     }
 
@@ -163,11 +163,12 @@ document.addEventListener('DOMContentLoaded', function () {
       formStatus.textContent = 'Sending...';
       const formData = {
         name: $('#name').value.trim(),
+        phone: $('#phone').value.trim(),
         email: $('#email').value.trim(),
         message: $('#message').value.trim(),
         consent: $('#consent').checked
       };
-      if (!formData.name || !formData.email || !formData.message || !formData.consent) {
+      if (!formData.name || !formData.email || !formData.phone || !formData.message || !formData.consent) {
         formStatus.textContent = 'Please complete all required fields and accept consent.';
         return;
       }
@@ -188,5 +189,4 @@ document.addEventListener('DOMContentLoaded', function () {
       if (navList && navList.classList.contains('show')) navList.classList.remove('show');
     }
   });
-
 });
